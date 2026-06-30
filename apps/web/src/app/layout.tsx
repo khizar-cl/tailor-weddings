@@ -5,8 +5,9 @@ import "../index.css";
 import Providers from "../providers/providers";
 
 export const metadata: Metadata = {
-	title: "Genesis",
-	description: "Genesis",
+	title: "Tailor Weddings",
+	description:
+		"The wedding marketplace that connects couples with trusted vendors.",
 };
 
 export default function RootLayout({

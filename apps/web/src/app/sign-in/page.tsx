@@ -18,6 +18,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { z } from "zod";
 import googleIcon from "../../assets/images/google-icon.png";
+import { LogoLockup } from "../../components/logo";
 import { PasswordInput } from "../../components/password-input";
 import { AnalyticsEvent, analytics } from "../../utils/analytics";
 import { getClerkErrorMessage } from "../../utils/clerk-error";
@@ -241,7 +242,8 @@ function SignInContent() {
 
 export default function SignInPage() {
 	return (
-		<div className="flex min-h-screen items-center justify-center bg-background p-4">
+		<div className="flex min-h-screen flex-col items-center justify-center gap-8 bg-background p-4">
+			<LogoLockup className="h-auto w-44" priority />
 			<Suspense fallback={<Spinner className="size-8" />}>
 				<SignInContent />
 			</Suspense>
