@@ -69,3 +69,6 @@ docs/superpowers/
 **/crash.*.log
 **/.envrc
 .claude/scheduled_tasks.lock
+
+# Local-only gitignore (not committed)
+.gitignore.local
