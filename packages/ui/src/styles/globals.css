@@ -10,54 +10,54 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-	/* Core */
-	--background: #f9f8fc;
-	--foreground: #302d50;
+	/* Core — warm editorial ivory, deep warm charcoal text */
+	--background: #faf7f1;
+	--foreground: #2b2a26;
 
 	/* Surfaces */
-	--card: #fcfcfd;
+	--card: #fffdf9;
 	--card-foreground: var(--foreground);
 	--popover: var(--card);
 	--popover-foreground: var(--foreground);
 
-	/* Brand */
-	--primary: #2c429d;
-	--primary-foreground: #ffffff;
-	--secondary: #e6e3f0;
+	/* Brand — deep evergreen (trust, timelessness) on warm sand surfaces */
+	--primary: #1f4d3f;
+	--primary-foreground: #f7f4ec;
+	--secondary: #ece6db;
 	--secondary-foreground: var(--foreground);
-	--muted: #f0f0f2;
-	--muted-foreground: #4a4968;
-	--accent: #eeedf4;
+	--muted: #f1ede4;
+	--muted-foreground: #6b6759;
+	--accent: #efe9de;
 	--accent-foreground: var(--foreground);
 
-	/* Borders & rings */
-	--border: rgba(26, 26, 46, 0.14);
+	/* Borders & rings — warm clay focus ring */
+	--border: rgba(43, 42, 38, 0.12);
 	--input: var(--border);
-	--ring: #8996c5;
+	--ring: #c2906b;
 	--radius: 0.625rem;
 
 	/* Overlay (modal/drawer backdrops) */
-	--overlay: rgba(0, 0, 0, 0.4);
+	--overlay: rgba(43, 42, 38, 0.4);
 
-	/* State */
-	--destructive: #f9ebec;
-	--destructive-foreground: #b34457;
-	--success: #ebf6ed;
-	--success-foreground: #42774f;
-	--warning: #fef6eb;
-	--warning-foreground: #c98e3a;
-	--info: #ebf2fa;
-	--info-foreground: #3f6ca3;
+	/* State — soft warm surface + vivid foreground, palette-aligned */
+	--destructive: #f7e9e6;
+	--destructive-foreground: #b04a3f;
+	--success: #e7efe9;
+	--success-foreground: #2f6b50;
+	--warning: #f8f0dc;
+	--warning-foreground: #a67c2e;
+	--info: #e8eeec;
+	--info-foreground: #4a7a6a;
 
-	/* Chart */
-	--chart-1: #d65a6f;
-	--chart-2: #5da86e;
-	--chart-3: #4a85c2;
-	--chart-4: #e6a825;
-	--chart-5: #2c429d;
+	/* Chart — wedding editorial palette */
+	--chart-1: #1f4d3f;
+	--chart-2: #c97b5a;
+	--chart-3: #d9a441;
+	--chart-4: #b5708a;
+	--chart-5: #6b9080;
 
 	/* Sidebar */
-	--sidebar: #f9f8fc;
+	--sidebar: #f4efe6;
 	--sidebar-foreground: var(--foreground);
 	--sidebar-primary: var(--primary);
 	--sidebar-primary-foreground: var(--primary-foreground);
@@ -68,53 +68,53 @@
 }
 
 .dark {
-	/* Core */
-	--background: #15141e;
-	--foreground: #e8e6ef;
+	/* Core — deep warm charcoal, warm ivory text */
+	--background: #1a1916;
+	--foreground: #ece7db;
 
 	/* Surfaces */
-	--card: #1c1b23;
+	--card: #221f1b;
 	--card-foreground: var(--foreground);
 	--popover: var(--card);
 	--popover-foreground: var(--foreground);
 
-	/* Brand */
-	--primary: #cbb8ff;
-	--primary-foreground: var(--background);
-	--secondary: #27262d;
+	/* Brand — soft sage lifts off the dark ground */
+	--primary: #8fc5ab;
+	--primary-foreground: #15211b;
+	--secondary: #2b2823;
 	--secondary-foreground: var(--foreground);
-	--muted: #202022;
-	--muted-foreground: #a8a8a8;
-	--accent: #26252d;
+	--muted: #242019;
+	--muted-foreground: #a39d8e;
+	--accent: #2a261f;
 	--accent-foreground: var(--foreground);
 
 	/* Borders & rings */
-	--border: rgba(180, 180, 200, 0.16);
+	--border: rgba(236, 231, 219, 0.14);
 	--input: var(--border);
-	--ring: var(--primary);
+	--ring: #c2906b;
 
 	/* Overlay (modal/drawer backdrops) */
 	--overlay: rgba(0, 0, 0, 0.6);
 
 	/* State */
-	--destructive: #2e1525;
-	--destructive-foreground: #d65a6f;
-	--success: #1a2e20;
-	--success-foreground: #5da86e;
-	--warning: #2e2515;
-	--warning-foreground: #e6b25c;
-	--info: #1a2035;
-	--info-foreground: #4a85c2;
+	--destructive: #2e1a17;
+	--destructive-foreground: #e08a7d;
+	--success: #16261d;
+	--success-foreground: #7fb89d;
+	--warning: #2a2415;
+	--warning-foreground: #d9b56a;
+	--info: #16221f;
+	--info-foreground: #6fae98;
 
 	/* Chart */
-	--chart-1: #7b8de0;
-	--chart-2: #5da86e;
-	--chart-3: #d65a6f;
-	--chart-4: #e6b25c;
-	--chart-5: #5a92c4;
+	--chart-1: #8fc5ab;
+	--chart-2: #db9b78;
+	--chart-3: #e0bd6a;
+	--chart-4: #cf93ab;
+	--chart-5: #8fb3a3;
 
 	/* Sidebar */
-	--sidebar: #131219;
+	--sidebar: #161410;
 	--sidebar-foreground: var(--foreground);
 	--sidebar-primary: var(--primary);
 	--sidebar-primary-foreground: var(--background);
