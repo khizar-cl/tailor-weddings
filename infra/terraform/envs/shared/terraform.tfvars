@@ -1,5 +1,5 @@
-project_name = "genesis"
-repo_url     = "https://github.com/Conrad-Labs/project-genesis-2.0"
+project_name = "tailorweddings"
+repo_url     = "https://github.com/khizar-cl/tailor-weddings"
 
 # `environments` defaults to {staging = develop, production = main}. Override
 # in this file if you need extra envs (e.g. preview tracking a feature branch)
