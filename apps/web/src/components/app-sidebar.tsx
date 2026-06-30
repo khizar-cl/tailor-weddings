@@ -25,6 +25,7 @@ import type React from "react";
 import { type FC, useEffect, useState } from "react";
 import { useSidebarControl } from "../providers/sidebar-control-provider";
 import { AnalyticsEvent, analytics } from "../utils/analytics";
+import { LogoInline, LogoMark } from "./logo";
 import { ThemePicker } from "./theme-picker";
 import { UserAvatar } from "./user-avatar";
 
@@ -112,14 +113,11 @@ export const AppSidebar: FC<AppSidebarProps> = ({
 					showFull ? "px-4" : "justify-center px-2",
 				)}
 			>
-				<span
-					className={cn(
-						"font-bold text-foreground tracking-tight",
-						showFull ? "text-lg" : "text-lg",
-					)}
-				>
-					{showFull ? "Genesis" : "G"}
-				</span>
+				{showFull ? (
+					<LogoInline size="sm" priority />
+				) : (
+					<LogoMark className="h-auto w-10" priority />
+				)}
 			</div>
 
 			{/* Navigation */}
