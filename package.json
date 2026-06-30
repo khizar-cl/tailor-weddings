@@ -1,5 +1,5 @@
 {
-	"name": "genesis",
+	"name": "tailorweddings",
 	"private": true,
 	"workspaces": [
 		"apps/*",
