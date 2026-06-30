@@ -7,6 +7,7 @@
 	],
 	"type": "module",
 	"scripts": {
+		"checking": "turbo dev dev:worker",
 		"dev": "turbo dev dev:worker",
 		"dev:worker": "turbo -F server dev:worker",
 		"build": "turbo build",
