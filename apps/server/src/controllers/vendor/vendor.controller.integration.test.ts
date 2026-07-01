@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import request from "supertest";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -203,6 +204,28 @@ describe("vendor.upsertMine", () => {
 			"https://signed.example/uploads/a/logo.png",
 		);
 	});
+
+	it("attaches portfolio images in order with signed urls", async () => {
+		const vendorUser = await createVendorUser("a");
+		const first = await createOwnedFile(vendorUser.id, "uploads/a/img1.png");
+		const second = await createOwnedFile(vendorUser.id, "uploads/a/img2.png");
+
+		const res = await post("vendor/upsertMine", "user_vendor_a", {
+			...baseProfile,
+			imageFileUuids: [first.uuid, second.uuid],
+		}).expect(200);
+
+		const images = rpcBody(res).images;
+		expect(images).toHaveLength(2);
+		expect(images[0]).toMatchObject({
+			url: "https://signed.example/uploads/a/img1.png",
+			sortOrder: 0,
+		});
+		expect(images[1]).toMatchObject({
+			url: "https://signed.example/uploads/a/img2.png",
+			sortOrder: 1,
+		});
+	});
 });
 
 describe("vendor.publish", () => {
@@ -239,6 +262,23 @@ describe("vendor.publish", () => {
 });
 
 describe("vendor.getMine", () => {
+	it("returns a null logo url when the logo file was deleted", async () => {
+		const vendorUser = await createVendorUser("a");
+		const logo = await createOwnedFile(vendorUser.id, "uploads/a/logo.png");
+		await post("vendor/upsertMine", "user_vendor_a", {
+			...baseProfile,
+			logoFileUuid: logo.uuid,
+		}).expect(200);
+
+		await db
+			.update(files)
+			.set({ deletedAt: new Date() })
+			.where(eq(files.uuid, logo.uuid));
+
+		const res = await post("vendor/getMine", "user_vendor_a").expect(200);
+		expect(rpcBody(res).logoUrl).toBeNull();
+	});
+
 	it("returns null when the vendor has no profile", async () => {
 		await createVendorUser("a");
 		const res = await post("vendor/getMine", "user_vendor_a").expect(200);
