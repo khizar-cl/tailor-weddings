@@ -97,6 +97,12 @@ export const VendorListInputSchema = z.object({
 
 export type VendorListInputSchema = z.infer<typeof VendorListInputSchema>;
 
+export const VendorByUuidInputSchema = z.object({
+	uuid: z.string().uuid(),
+});
+
+export type VendorByUuidInputSchema = z.infer<typeof VendorByUuidInputSchema>;
+
 // ----- Outputs -----
 
 export const VendorListItemSchema = z.object({
