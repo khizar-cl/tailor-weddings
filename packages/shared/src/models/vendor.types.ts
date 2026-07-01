@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+// ----- Constants -----
+
+export const MAX_VENDOR_IMAGES = 20;
+export const MAX_VENDOR_PACKAGES = 20;
+
 // ----- Category -----
 
 export const VendorCategoryEnum = z.enum([
@@ -77,8 +82,20 @@ export const UpsertVendorInputSchema = z.object({
 	tagline: z.string().max(160).nullish(),
 	description: z.string().max(5000).nullish(),
 	logoFileUuid: z.string().uuid().nullish(),
-	imageFileUuids: z.array(z.string().uuid()).default([]),
-	packages: z.array(ServicePackageInputSchema).default([]),
+	imageFileUuids: z
+		.array(z.string().uuid())
+		.max(
+			MAX_VENDOR_IMAGES,
+			`A profile can have at most ${MAX_VENDOR_IMAGES} portfolio images`,
+		)
+		.default([]),
+	packages: z
+		.array(ServicePackageInputSchema)
+		.max(
+			MAX_VENDOR_PACKAGES,
+			`A profile can have at most ${MAX_VENDOR_PACKAGES} service packages`,
+		)
+		.default([]),
 });
 
 export type UpsertVendorInputSchema = z.infer<typeof UpsertVendorInputSchema>;
