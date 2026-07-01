@@ -135,24 +135,6 @@ export default function ProfilePage() {
 						</CardContent>
 					</Card>
 				</div>
-
-				<Card>
-					<CardHeader>
-						<CardTitle>Authentication</CardTitle>
-					</CardHeader>
-					<CardContent className="space-y-2">
-						{[
-							"Your profile is managed by Clerk and persisted securely.",
-							"Session tokens are automatically refreshed in the background.",
-							"Sign out from any device through the Clerk dashboard.",
-						].map((note) => (
-							<div key={note} className="flex items-start gap-2.5">
-								<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ring" />
-								<p className="text-muted-foreground text-sm">{note}</p>
-							</div>
-						))}
-					</CardContent>
-				</Card>
 			</div>
 		</BaseLayout>
 	);
