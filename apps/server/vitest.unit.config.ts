@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { defineConfig } from "vitest/config";
+import { coverageConfigDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig({
 	resolve: {
@@ -22,6 +22,15 @@ export default defineConfig({
 			provider: "v8",
 			reportsDirectory: "./coverage/unit",
 			reporter: ["text", "json-summary", "lcov"],
+			// Declarative Drizzle definitions and migrations are not unit-tested
+			// (see docs/engineering/testing-patterns.md — don't test Drizzle
+			// directly or type-level guarantees).
+			exclude: [
+				...coverageConfigDefaults.exclude,
+				"src/db/schema/**",
+				"src/db/migrations/**",
+				"drizzle.config.ts",
+			],
 		},
 	},
 });

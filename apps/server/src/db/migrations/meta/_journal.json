@@ -64,6 +64,13 @@
 			"when": 1778585128181,
 			"tag": "0008_fk_to_user_id",
 			"breakpoints": true
+		},
+		{
+			"idx": 9,
+			"version": "7",
+			"when": 1782905976942,
+			"tag": "0009_add_vendor_tables",
+			"breakpoints": true
 		}
 	]
 }
