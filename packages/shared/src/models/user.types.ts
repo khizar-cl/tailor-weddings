@@ -1,11 +1,12 @@
 import { z } from "zod";
 
-export const UserRoleEnum = z.enum(["admin", "member"]);
+export const UserRoleEnum = z.enum(["admin", "member", "vendor"]);
 export type UserRole = z.infer<typeof UserRoleEnum>;
 
 export const Roles = {
 	ADMIN: "admin",
 	MEMBER: "member",
+	VENDOR: "vendor",
 } as const satisfies Record<string, UserRole>;
 
 export const UserPreferences = z.looseObject({

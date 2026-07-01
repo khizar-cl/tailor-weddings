@@ -18,7 +18,7 @@ import {
 // here MUST stay aligned with packages/shared/src/models/user.types.ts —
 // this is a paired source-of-truth declaration (DB schema + runtime
 // validation).
-export const userRoleEnum = pgEnum("user_role", ["admin", "member"]);
+export const userRoleEnum = pgEnum("user_role", ["admin", "member", "vendor"]);
 
 export const users = pgTable("users", {
 	id: serial("id").primaryKey(),
