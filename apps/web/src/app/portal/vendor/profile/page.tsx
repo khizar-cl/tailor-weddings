@@ -26,7 +26,7 @@ import { Spinner } from "@repo/ui/components/spinner";
 import { Textarea } from "@repo/ui/components/textarea";
 import { useForm } from "@tanstack/react-form";
 import { ImageIcon, PlusIcon, Trash2Icon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
 	useMyVendorProfile,
 	usePublishVendorProfile,
@@ -89,16 +89,50 @@ const emptyValues: UpsertVendorInputSchema = {
 
 export default function VendorProfilePage() {
 	const { data: profile, isLoading } = useMyVendorProfile();
+
+	if (isLoading) {
+		return (
+			<BaseLayout title="My Profile" description="Manage your vendor profile.">
+				<div className="flex items-center justify-center py-12">
+					<Spinner className="size-8" />
+				</div>
+			</BaseLayout>
+		);
+	}
+
+	// Remount when the profile identity changes (e.g. the first save creates it)
+	// so the form re-initializes its defaults from the freshly saved server data.
+	return (
+		<VendorProfileForm
+			key={profile?.uuid ?? "new"}
+			initialProfile={profile ?? null}
+		/>
+	);
+}
+
+function VendorProfileForm({
+	initialProfile,
+}: {
+	initialProfile: VendorDetailSchema | null;
+}) {
 	const upsert = useUpsertVendorProfile();
 	const publish = usePublishVendorProfile();
 	const upload = useUploadFile();
 
 	// fileUuid -> displayable url (existing presigned urls + local previews for new uploads)
-	const [previews, setPreviews] = useState<Record<string, string>>({});
-	const seeded = useRef(false);
+	const [previews, setPreviews] = useState<Record<string, string>>(() => {
+		const seed: Record<string, string> = {};
+		if (initialProfile?.logoFileUuid && initialProfile.logoUrl) {
+			seed[initialProfile.logoFileUuid] = initialProfile.logoUrl;
+		}
+		for (const image of initialProfile?.images ?? []) {
+			seed[image.fileUuid] = image.url;
+		}
+		return seed;
+	});
 
 	const form = useForm({
-		defaultValues: emptyValues,
+		defaultValues: initialProfile ? toFormValues(initialProfile) : emptyValues,
 		validators: { onChange: UpsertVendorInputSchema },
 		onSubmit: ({ value }) => {
 			upsert.mutate({
@@ -110,22 +144,6 @@ export default function VendorProfilePage() {
 			});
 		},
 	});
-
-	useEffect(() => {
-		if (!profile || seeded.current) {
-			return;
-		}
-		form.reset(toFormValues(profile));
-		const seededPreviews: Record<string, string> = {};
-		if (profile.logoFileUuid && profile.logoUrl) {
-			seededPreviews[profile.logoFileUuid] = profile.logoUrl;
-		}
-		for (const image of profile.images) {
-			seededPreviews[image.fileUuid] = image.url;
-		}
-		setPreviews(seededPreviews);
-		seeded.current = true;
-	}, [profile, form]);
 
 	async function uploadAndPreview(file: File): Promise<string> {
 		const record = await upload.mutateAsync({ file });
@@ -152,17 +170,7 @@ export default function VendorProfilePage() {
 		}
 	}
 
-	if (isLoading) {
-		return (
-			<BaseLayout title="My Profile" description="Manage your vendor profile.">
-				<div className="flex items-center justify-center py-12">
-					<Spinner className="size-8" />
-				</div>
-			</BaseLayout>
-		);
-	}
-
-	const isPublished = profile?.isPublished ?? false;
+	const isPublished = initialProfile?.isPublished ?? false;
 
 	return (
 		<BaseLayout
@@ -481,7 +489,7 @@ export default function VendorProfilePage() {
 						type="button"
 						tone="secondary"
 						variant="outline"
-						disabled={!profile || publish.isPending || upsert.isPending}
+						disabled={!initialProfile || publish.isPending || upsert.isPending}
 						onClick={() => publish.mutate({ publish: !isPublished })}
 					>
 						{isPublished ? "Unpublish" : "Publish"}
