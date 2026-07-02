@@ -203,6 +203,7 @@ describe("vendor.upsertMine", () => {
 		expect(rpcBody(res).logoUrl).toBe(
 			"https://signed.example/uploads/a/logo.png",
 		);
+		expect(rpcBody(res).logoFileUuid).toBe(logo.uuid);
 	});
 
 	it("attaches portfolio images in order with signed urls", async () => {
@@ -218,10 +219,12 @@ describe("vendor.upsertMine", () => {
 		const images = rpcBody(res).images;
 		expect(images).toHaveLength(2);
 		expect(images[0]).toMatchObject({
+			fileUuid: first.uuid,
 			url: "https://signed.example/uploads/a/img1.png",
 			sortOrder: 0,
 		});
 		expect(images[1]).toMatchObject({
+			fileUuid: second.uuid,
 			url: "https://signed.example/uploads/a/img2.png",
 			sortOrder: 1,
 		});

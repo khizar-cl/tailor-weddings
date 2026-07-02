@@ -53,7 +53,12 @@ async function toVendorDetail(row: VendorRow): Promise<VendorDetailSchema> {
 			row.images.map(async (image) => {
 				const url = await viewUrl(image.file);
 				return url
-					? { uuid: image.uuid, url, sortOrder: image.sortOrder }
+					? {
+							uuid: image.uuid,
+							fileUuid: image.file.uuid,
+							url,
+							sortOrder: image.sortOrder,
+						}
 					: null;
 			}),
 		)
@@ -65,6 +70,7 @@ async function toVendorDetail(row: VendorRow): Promise<VendorDetailSchema> {
 		category: row.category,
 		tagline: row.tagline,
 		description: row.description,
+		logoFileUuid: row.logoFile ? row.logoFile.uuid : null,
 		logoUrl,
 		images,
 		packages: row.packages.map((pkg) => ({
