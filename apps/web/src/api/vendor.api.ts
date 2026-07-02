@@ -1,9 +1,15 @@
 import type {
 	FileRecord,
+	VendorCategory,
 	VendorDetailSchema,
 	VendorListInputSchema,
 } from "@repo/shared";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+	useInfiniteQuery,
+	useMutation,
+	useQuery,
+	useQueryClient,
+} from "@tanstack/react-query";
 import { toast } from "sonner";
 import { orpc } from "../utils/orpc";
 
@@ -13,6 +19,16 @@ export function useMyVendorProfile() {
 
 export function useVendorList(input: VendorListInputSchema) {
 	return useQuery(orpc.vendor.list.queryOptions({ input }));
+}
+
+export function useVendorDirectory(category?: VendorCategory) {
+	return useInfiniteQuery(
+		orpc.vendor.list.infiniteOptions({
+			input: (cursor: string | undefined) => ({ category, cursor, limit: 20 }),
+			initialPageParam: undefined as string | undefined,
+			getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+		}),
+	);
 }
 
 export function useVendorDetail(uuid: string | undefined) {
