@@ -1,4 +1,4 @@
-import type { UserRole } from "@repo/shared";
+import { Roles, type UserRole } from "@repo/shared";
 
 export interface RouteAccessConfig {
 	/** Roles allowed on this route. Absent => any authenticated user. */
@@ -10,7 +10,11 @@ export interface RouteAccessConfig {
  * here only when it should be restricted to specific roles. Dynamic segments
  * use `:paramName` syntax (e.g. /portal/users/:id).
  */
-export const routeAccessConfig: Record<string, RouteAccessConfig> = {};
+export const routeAccessConfig: Record<string, RouteAccessConfig> = {
+	// Prefix-matches the vendor editor area (e.g. /portal/vendor/profile). The
+	// public directory /portal/vendors is a different segment and stays open.
+	"/portal/vendor": { allowedRoles: [Roles.VENDOR] },
+};
 
 function stripQueryAndHash(pathname: string): string {
 	return pathname.split(/[?#]/)[0] ?? pathname;
