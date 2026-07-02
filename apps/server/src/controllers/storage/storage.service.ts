@@ -1,13 +1,47 @@
 import { randomUUID } from "node:crypto";
 import { ORPCError } from "@orpc/server";
-import { MAX_FILE_SIZE_BYTES, type UploadFileInput } from "@repo/shared";
-import { eq } from "drizzle-orm";
+import {
+	MAX_FILE_SIZE_BYTES,
+	MAX_FILES_PER_USER,
+	MAX_UPLOAD_BYTES_PER_USER,
+	type UploadFileInput,
+} from "@repo/shared";
+import { and, count, eq, isNull, sql } from "drizzle-orm";
 import { files } from "../../db";
 import { db } from "../../db/db";
 import { createPresignedUrl, deleteObject, uploadBuffer } from "../../storage";
 import { env } from "../../utils/env";
 
 type DbUser = { id: number; uuid: string };
+
+/**
+ * Enforce the per-user storage quota before accepting an upload. Throws
+ * FORBIDDEN when the account is already at its file-count cap or the new file
+ * would push it over the total-bytes cap. Soft-deleted files are excluded.
+ */
+async function assertWithinUploadQuota(userId: number, incomingBytes: number) {
+	const [usage] = await db
+		.select({
+			fileCount: count(),
+			totalBytes: sql<number>`coalesce(sum(${files.sizeBytes}), 0)`,
+		})
+		.from(files)
+		.where(and(eq(files.createdBy, userId), isNull(files.deletedAt)));
+
+	const fileCount = usage?.fileCount ?? 0;
+	const totalBytes = Number(usage?.totalBytes ?? 0);
+
+	if (fileCount >= MAX_FILES_PER_USER) {
+		throw new ORPCError("FORBIDDEN", {
+			message: "Upload limit reached. Delete some files to free up space.",
+		});
+	}
+	if (totalBytes + incomingBytes > MAX_UPLOAD_BYTES_PER_USER) {
+		throw new ORPCError("FORBIDDEN", {
+			message: "Storage limit reached. Delete some files to free up space.",
+		});
+	}
+}
 
 export async function handleFileUpload(
 	dbUser: DbUser,
@@ -18,6 +52,8 @@ export async function handleFileUpload(
 			message: `File too large. Maximum size is ${MAX_FILE_SIZE_BYTES / (1024 * 1024)} MB.`,
 		});
 	}
+
+	await assertWithinUploadQuota(dbUser.id, file.size);
 
 	const extension = file.name.includes(".")
 		? file.name.substring(file.name.lastIndexOf("."))
