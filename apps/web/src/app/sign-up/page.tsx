@@ -319,35 +319,41 @@ function SignUpContent() {
 					{!isInvitation && (
 						<form.Field
 							name="role"
-							children={(field) => (
-								<div className="space-y-2">
-									<Label>Role</Label>
-									<div className="flex gap-3">
-										<Button
-											type="button"
-											tone="secondary"
-											variant={
-												field.state.value !== Roles.MEMBER ? "solid" : "outline"
-											}
-											className="flex-1"
-											onClick={() => field.handleChange(Roles.MEMBER)}
-										>
-											Member
-										</Button>
-										<Button
-											type="button"
-											tone="secondary"
-											variant={
-												field.state.value !== Roles.ADMIN ? "solid" : "outline"
-											}
-											className="flex-1"
-											onClick={() => field.handleChange(Roles.ADMIN)}
-										>
-											Admin
-										</Button>
+							children={(field) => {
+								const isCouple = field.state.value === Roles.MEMBER;
+								const isVendor = field.state.value === Roles.VENDOR;
+								return (
+									<div className="space-y-2">
+										<Label>I am a…</Label>
+										<div className="flex flex-col gap-3 sm:flex-row">
+											<Button
+												type="button"
+												tone={isCouple ? "primary" : "secondary"}
+												variant={isCouple ? "solid" : "outline"}
+												className="h-auto flex-1 flex-col items-start gap-1 py-3 text-left"
+												onClick={() => field.handleChange(Roles.MEMBER)}
+											>
+												<span className="font-medium">Couple</span>
+												<span className="text-xs opacity-90">
+													Planning a wedding
+												</span>
+											</Button>
+											<Button
+												type="button"
+												tone={isVendor ? "primary" : "secondary"}
+												variant={isVendor ? "solid" : "outline"}
+												className="h-auto flex-1 flex-col items-start gap-1 py-3 text-left"
+												onClick={() => field.handleChange(Roles.VENDOR)}
+											>
+												<span className="font-medium">Vendor</span>
+												<span className="text-xs opacity-90">
+													Offering services to couples
+												</span>
+											</Button>
+										</div>
 									</div>
-								</div>
-							)}
+								);
+							}}
 						/>
 					)}
 
