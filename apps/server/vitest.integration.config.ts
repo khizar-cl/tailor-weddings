@@ -18,7 +18,9 @@ export default defineConfig({
 		watch: false,
 		globals: true,
 		environment: "node",
-		env: { NODE_ENV: "test" },
+		// CI sets `skipValidation`, so t3-env does not apply Zod defaults (e.g.
+		// S3_BUCKET). Provide the values the service layer reads directly.
+		env: { NODE_ENV: "test", S3_BUCKET: "test-bucket" },
 		include: ["src/**/*.integration.test.ts"],
 		passWithNoTests: false,
 		fileParallelism: false,
