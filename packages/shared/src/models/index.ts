@@ -5,5 +5,6 @@ export * from "./email-template.types";
 export * from "./health.types";
 export * from "./password";
 export * from "./storage.types";
+export * from "./team.types";
 export * from "./user.types";
 export * from "./vendor.types";
