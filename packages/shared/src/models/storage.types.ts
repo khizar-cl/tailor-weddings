@@ -4,6 +4,12 @@ import { z } from "zod";
 
 export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
 
+// Per-user upload quota — caps how much any single account can store, so an
+// authenticated user can't fill storage by looping the upload endpoint.
+// Soft-deleted files are excluded from both totals (they count as freed).
+export const MAX_FILES_PER_USER = 100;
+export const MAX_UPLOAD_BYTES_PER_USER = 200 * 1024 * 1024; // 200 MB
+
 // ----- Inputs -----
 
 // React Native has no `File`; mobile uploads are a `Blob` with a `name` own
