@@ -46,7 +46,7 @@ export default function VendorDirectoryPage() {
 						)
 					}
 				>
-					<SelectTrigger className="w-56">
+					<SelectTrigger className="w-56" aria-label="Filter by category">
 						<SelectValue />
 					</SelectTrigger>
 					<SelectContent>
