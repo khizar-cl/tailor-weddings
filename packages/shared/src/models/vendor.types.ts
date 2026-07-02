@@ -68,6 +68,7 @@ export type ServicePackageInputSchema = z.infer<
 
 export const VendorImageSchema = z.object({
 	uuid: z.string().uuid(),
+	fileUuid: z.string().uuid(),
 	url: z.string(),
 	sortOrder: z.number().int(),
 });
@@ -87,15 +88,13 @@ export const UpsertVendorInputSchema = z.object({
 		.max(
 			MAX_VENDOR_IMAGES,
 			`A profile can have at most ${MAX_VENDOR_IMAGES} portfolio images`,
-		)
-		.default([]),
+		),
 	packages: z
 		.array(ServicePackageInputSchema)
 		.max(
 			MAX_VENDOR_PACKAGES,
 			`A profile can have at most ${MAX_VENDOR_PACKAGES} service packages`,
-		)
-		.default([]),
+		),
 });
 
 export type UpsertVendorInputSchema = z.infer<typeof UpsertVendorInputSchema>;
@@ -146,6 +145,7 @@ export const VendorDetailSchema = z.object({
 	category: VendorCategoryEnum,
 	tagline: z.string().nullable(),
 	description: z.string().nullable(),
+	logoFileUuid: z.string().uuid().nullable(),
 	logoUrl: z.string().nullable(),
 	images: z.array(VendorImageSchema),
 	packages: z.array(ServicePackageSchema),
