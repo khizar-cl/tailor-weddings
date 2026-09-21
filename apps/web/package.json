@@ -53,7 +53,7 @@
 		"jsdom": "^29.0.2",
 		"tailwind-merge": "^3.5.0",
 		"tailwindcss": "catalog:",
-		"typescript": "^5",
+		"typescript": "^6",
 		"vitest": "^4.1.4"
 	}
 }
