@@ -59,7 +59,7 @@ catalog:
   "@orpc/contract": ^1.13.14
   "@orpc/openapi": ^1.13.14
   "@orpc/server": ^1.13.14
-  "@orpc/zod": ^1.13.14
+  "@orpc/zod": ^1.14.10
   "@types/express": ^5.0.1
   "@types/react": ^19.2.14
   "@types/react-dom": ^19.2.3
